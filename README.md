@@ -1,2 +1,2 @@
 # weatherapi-puppeteer-testing
-Autotetests using puppeteer
+Puppeteer for automated UI testing
