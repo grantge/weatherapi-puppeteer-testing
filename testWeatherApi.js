@@ -7,6 +7,11 @@ const link =  'https://gentle-oasis-79578.herokuapp.com/';
 const selectorTitle = '.card-header';
 const selectorDescr = '.card-text';
 const selectorLabel = '.col-form-label';
+const input = '.form-control-sm';
+const cityTitle = '.card-title';
+const button = '.btn'
+
+
 
 // Browser functions
 const dontRunBrowser = false;
@@ -23,7 +28,7 @@ class TestSuit {
         console.log('Create a new page')
         const page = await browser.newPage();
     
-        console.log('Go to the page https://gentle-oasis-79578.herokuapp.com/')
+        console.log(`Go to the page ${link}`)
         await page.goto(link)
     
         console.log('Find title of the app')
@@ -105,7 +110,7 @@ class TestSuit {
     }
 
     // Check the placeholder of the app 
-    async testCheckLabel() {
+    async testCheckCity() {
         console.log('\x1b[35m%s\x1b[0m', 'Test 4 is running');
         
         console.log("\x1b[33m%s\x1b[0m",'Browser is running')
@@ -117,18 +122,26 @@ class TestSuit {
         console.log('Go to the page https://gentle-oasis-79578.herokuapp.com/')
         await page.goto(link)
     
-        console.log('Find placeholder of the app')
-        let element = await page.$(selectorLabel)
+        console.log('Find input of the app')
+
+        const cityName = 'Odesa'
+
+        await page.type(input, cityName)
+        console.log('write city')
+
+        await page.click(button)
+        
+        await page.waitForTimeout(2000)
+        
+        let element = await page.$(cityTitle)
         let result = await page.evaluate(element => element.textContent, element)
         console.log(result)
-    
-        console.log('Compare app label')
-        
-        if(result == 'City:') {
-            console.log("\x1b[36m%s\x1b[0m",'the label of the app is City:, Good')
+
+        if(result == `city: ${cityName}`) {
+            console.log("\x1b[36m%s\x1b[0m",'the city is right: Good')
         }
         else {
-            console.log("\x1b[31m%s\x1b[0m",'the label of the app is not City:, Error')
+            console.log("\x1b[31m%s\x1b[0m",'the city is not right: Error')
         }
     
         console.log("\x1b[33m%s\x1b[0m",'Close the browser')
@@ -145,6 +158,8 @@ const runTests = async () => {
     await testSuit.testCheckDescription()
     // Third test
     await testSuit.testCheckLabel();
+    // Fourth test
+    await testSuit.testCheckCity();
 }
 
 runTests();
